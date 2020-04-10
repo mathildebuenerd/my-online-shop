@@ -52,3 +52,14 @@ img {
     object-fit: cover;
 }
 
+.add-to-basket__button {
+    padding: 1rem;
+    margin: 1rem 1rem 1rem 0;
+    background-color: #0b70f1;
+    color: white;
+    border: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 3px 5px lightgrey;
+}
