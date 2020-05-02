@@ -3,10 +3,12 @@ class Product {
         this.showProduct();
     }
 
-    showProduct() {
-        const selectedProduct = this.getSelectedProductFromLocalStorage();
-        const productBlock = this.createElementWithText('main', 'product');
+    async showProduct() {
+        const selectedProductId = this.getSelectedProductIdFromLocalStorage();
+        const selectedProduct = await this.getProduct(selectedProductId);
         const { _id, name, imageUrl, price, lenses, description } = selectedProduct;
+
+        const productBlock = this.createElementWithText('main', 'product');
         const nameElement = this.createElementWithText('h1', 'product-name', name);
         const descriptionElement = this.createElementWithText('p', 'product-description', description);
         const priceElement = this.createElementWithText('span', 'product-price', price);
@@ -18,15 +20,9 @@ class Product {
         document.querySelector('.product-description').appendChild(productBlock);
     }
 
-    getSelectedProductFromLocalStorage() {
+    getSelectedProductIdFromLocalStorage() {
         const selectedProductId = localStorage.getItem('selectedProduct');
-        const allProducts = JSON.parse(localStorage.getItem('products'));
-        for (const product of allProducts) {
-            if (product._id === selectedProductId) {
-                return product;
-            }
-        }
-        console.warn('😢 The product id was not found in the LocalStorage :(', selectedProductId);
+        return selectedProductId || console.warn('😢 The product id was not found in the LocalStorage :(', selectedProductId);
     }
 
     createCustomOptionsElement(options) {
@@ -43,6 +39,13 @@ class Product {
         element.classList.add(cssClass);
         element.textContent = text;
         return element;
+    }
+
+    getProduct(id) {
+        return fetch('http://localhost:7000/api/cameras/' + id)
+            .then((response) => response.json())
+            .then((product) => product)
+            .catch((error) => console.warn(error));
     }
 }
 

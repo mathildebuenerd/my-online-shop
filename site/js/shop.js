@@ -4,11 +4,10 @@ class Shop {
     }
 
     getProductList() {
-        fetch('http://localhost:3000/api/cameras')
+        fetch('http://localhost:7000/api/cameras')
             .then(response => response.json())
             .then((products) => {
                 this.showProductList(products);
-                this.addProductsToLocalStorage(products);
             })
             .catch((error) => console.warn(error));
     }
@@ -35,10 +34,6 @@ class Shop {
 
     saveProductId(id) {
         localStorage.setItem('selectedProduct', id);
-    }
-
-    addProductsToLocalStorage(products) {
-        localStorage.setItem('products', JSON.stringify(products));
     }
 
     createCustomOptionsElement(options) {
