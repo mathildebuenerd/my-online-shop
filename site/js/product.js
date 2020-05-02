@@ -1,5 +1,7 @@
 class Product {
     constructor() {
+        const addToBasketButton = document.querySelector('.add-to-basket__button');
+        addToBasketButton.addEventListener('click', this.addToBasket.bind(this));
         this.showProduct();
     }
 
@@ -46,6 +48,16 @@ class Product {
             .then((response) => response.json())
             .then((product) => product)
             .catch((error) => console.warn(error));
+    }
+
+    addToBasket() {
+        const id = this.getSelectedProductIdFromLocalStorage();
+        const productsAlreadyInBasket = JSON.parse(localStorage.getItem('productsInBasket')) || [];
+        const newBasket = [
+            ...productsAlreadyInBasket,
+            id
+        ];
+        localStorage.setItem('productsInBasket', JSON.stringify(newBasket));
     }
 }
 
